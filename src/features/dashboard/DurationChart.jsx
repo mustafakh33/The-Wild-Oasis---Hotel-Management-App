@@ -9,9 +9,9 @@ import {
   Tooltip,
 } from "recharts";
 import { useDarkMode } from "../../context/DarkModeContext";
+import { useState, useEffect } from "react";
 
 const ChartBox = styled.div`
-  /* Box */
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
@@ -25,6 +25,41 @@ const ChartBox = styled.div`
 
   & .recharts-pie-label-text {
     font-weight: 600;
+  }
+
+  @media (max-width: 1200px) {
+    grid-column: 1 / -1;
+    padding: 2rem 2.4rem;
+  }
+
+  @media (max-width: 768px) {
+    padding: 1.6rem 2rem;
+
+    & > *:first-child {
+      margin-bottom: 1.2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 1.2rem 1.6rem;
+  }
+`;
+
+// Responsive Legend styles
+const StyledPieChart = styled(PieChart)`
+  @media (max-width: 768px) {
+    .recharts-legend-wrapper {
+      padding-left: 0 !important;
+    }
+
+    .recharts-default-legend {
+      flex-wrap: wrap !important;
+      justify-content: center !important;
+    }
+
+    .recharts-legend-item {
+      margin: 0.2rem 0.5rem !important;
+    }
   }
 `;
 
@@ -115,8 +150,6 @@ const startDataDark = [
 ];
 
 function prepareData(startData, stays) {
-  // A bit ugly code, but sometimes this is what it takes when working with real data 😅
-
   function incArrayValue(arr, field) {
     return arr.map((obj) =>
       obj.duration === field ? { ...obj, value: obj.value + 1 } : obj
@@ -141,24 +174,108 @@ function prepareData(startData, stays) {
   return data;
 }
 
+// Hook to get screen size
+function useWindowSize() {
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+    height: undefined,
+  });
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return windowSize;
+}
+
 function DurationChart({ confirmedStays }) {
   const { isDarkMode } = useDarkMode();
+  const { width } = useWindowSize();
   const startData = isDarkMode ? startDataDark : startDataLight;
   const data = prepareData(startData, confirmedStays);
+
+  // Responsive chart dimensions and settings
+  const getChartConfig = () => {
+    if (width < 480) {
+      return {
+        height: 320,
+        innerRadius: 50,
+        outerRadius: 80,
+        cx: "50%",
+        cy: "50%",
+        legendAlign: "center",
+        legendVerticalAlign: "bottom",
+        legendLayout: "horizontal",
+        legendWidth: "100%",
+        legendIconSize: 12,
+      };
+    } else if (width < 768) {
+      return {
+        height: 320,
+        innerRadius: 60,
+        outerRadius: 90,
+        cx: "50%",
+        cy: "45%",
+        legendAlign: "center",
+        legendVerticalAlign: "bottom",
+        legendLayout: "horizontal",
+        legendWidth: "100%",
+        legendIconSize: 13,
+      };
+    } else if (width < 1200) {
+      return {
+        height: 320,
+        innerRadius: 80,
+        outerRadius: 110,
+        cx: "50%",
+        cy: "45%",
+        legendAlign: "center",
+        legendVerticalAlign: "bottom",
+        legendLayout: "horizontal",
+        legendWidth: "100%",
+        legendIconSize: 14,
+      };
+    } else {
+      return {
+        height: 250,
+        innerRadius: 85,
+        outerRadius: 110,
+        cx: "40%",
+        cy: "50%",
+        legendAlign: "right",
+        legendVerticalAlign: "middle",
+        legendLayout: "vertical",
+        legendWidth: "30%",
+        legendIconSize: 15,
+      };
+    }
+  };
+
+  const config = getChartConfig();
 
   return (
     <ChartBox>
       <Heading as="h2">Stay duration summary</Heading>
-      <ResponsiveContainer width="100%" height={240}>
+      <ResponsiveContainer width="100%" height={config.height}>
         <PieChart>
           <Pie
             data={data}
             nameKey="duration"
             dataKey="value"
-            innerRadius={85}
-            outerRadius={110}
-            cx="40%"
-            cy="50%"
+            innerRadius={config.innerRadius}
+            outerRadius={config.outerRadius}
+            cx={config.cx}
+            cy={config.cy}
             paddingAngle={3}
           >
             {data.map((entry) => (
@@ -171,11 +288,11 @@ function DurationChart({ confirmedStays }) {
           </Pie>
           <Tooltip />
           <Legend
-            verticalAlign="middle"
-            align="right"
-            width="30%"
-            layout="vertical"
-            iconSize={15}
+            verticalAlign={config.legendVerticalAlign}
+            align={config.legendAlign}
+            width={config.legendWidth}
+            layout={config.legendLayout}
+            iconSize={config.legendIconSize}
             iconType="circle"
           />
         </PieChart>

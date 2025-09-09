@@ -9,15 +9,12 @@ import {
 
 import DataItem from "../../ui/DataItem";
 import { Flag } from "../../ui/Flag";
-
 import { formatDistanceFromNow, formatCurrency } from "../../utils/helpers";
 
 const StyledBookingDataBox = styled.section`
-  /* Box */
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
-
   overflow: hidden;
 `;
 
@@ -41,7 +38,6 @@ const Header = styled.header`
     align-items: center;
     gap: 1.6rem;
     font-weight: 600;
-    font-size: 1.8rem;
   }
 
   & span {
@@ -49,10 +45,24 @@ const Header = styled.header`
     font-size: 2rem;
     margin-left: 4px;
   }
+
+  /* For mobile screens */
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+    padding: 1.6rem;
+    font-size: 1.6rem;
+  }
 `;
 
 const Section = styled.section`
   padding: 3.2rem 4rem 1.2rem;
+
+  /* For mobile screens */
+  @media (max-width: 768px) {
+    padding: 2.4rem 1.6rem 1.2rem;
+  }
 `;
 
 const Guest = styled.div`
@@ -66,6 +76,12 @@ const Guest = styled.div`
     font-weight: 500;
     color: var(--color-grey-700);
   }
+
+  /* Allow wrapping on smaller screens */
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    gap: 0.6rem 1.2rem;
+  }
 `;
 
 const Price = styled.div`
@@ -75,7 +91,6 @@ const Price = styled.div`
   padding: 1.6rem 3.2rem;
   border-radius: var(--border-radius-sm);
   margin-top: 2.4rem;
-
   background-color: ${(props) =>
     props.isPaid ? "var(--color-green-100)" : "var(--color-yellow-100)"};
   color: ${(props) =>
@@ -92,6 +107,14 @@ const Price = styled.div`
     width: 2.4rem;
     color: currentColor !important;
   }
+
+  /* For mobile screens */
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+    padding: 1.6rem;
+  }
 `;
 
 const Footer = styled.footer`
@@ -99,9 +122,14 @@ const Footer = styled.footer`
   font-size: 1.2rem;
   color: var(--color-grey-500);
   text-align: right;
+
+  /* For mobile screens */
+  @media (max-width: 768px) {
+    padding: 1.6rem;
+    text-align: center;
+  }
 `;
 
-// A purely presentational component
 function BookingDataBox({ booking }) {
   const {
     created_at,
@@ -164,7 +192,7 @@ function BookingDataBox({ booking }) {
         </DataItem>
 
         <Price isPaid={isPaid}>
-          <DataItem icon={<HiOutlineCurrencyDollar />} label={`Total price`}>
+          <DataItem icon={<HiOutlineCurrencyDollar />} label="Total price">
             {formatCurrency(totalPrice)}
 
             {hasBreakfast &&

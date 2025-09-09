@@ -7,6 +7,8 @@ import {
 import Stat from "./Stat";
 import { formatCurrency } from "../../utils/helpers";
 
+import styled from "styled-components";
+
 function Stats({ bookings, confirmedStays, numDays, cabinCount }) {
   // 1.
   const numBookings = bookings.length;

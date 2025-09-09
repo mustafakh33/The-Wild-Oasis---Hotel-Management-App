@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import Spinner from "./../../ui/Spinner";
 import CabinRow from "./CabinRow";
 import { useCabins } from "./useCabins";
@@ -5,6 +6,23 @@ import Table from "./../../ui/Table";
 import { useSearchParams } from "react-router-dom";
 import Menus from "../../ui/Menus";
 import Empty from "./../../ui/Empty";
+
+const TableContainer = styled.div`
+  overflow-x: auto;
+  & > div {
+    min-width: 70rem;
+  }
+  &::-webkit-scrollbar {
+    height: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background: var(--color-grey-100);
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-brand-600);
+    border-radius: 5px;
+  }
+`;
 
 const CabinTable = () => {
   const { isLoading, cabins } = useCabins();
@@ -30,32 +48,34 @@ const CabinTable = () => {
     const valueA = a[field];
     const valueB = b[field];
 
-    // لو قيم نصية (string) → نستخدم localeCompare
+    // If the values ​​are strings, we use localeCompare.
     if (typeof valueA === "string" && typeof valueB === "string") {
       return valueA.localeCompare(valueB) * modifier;
     }
 
-    // غير كده (أرقام) → نطرح عادي
+    // Otherwise (numbers) → We subtract normally
     return (valueA - valueB) * modifier;
   });
 
   return (
-    <Menus>
-      <Table columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
-        <Table.Header>
-          <div>Image</div>
-          <div>Cabin</div>
-          <div>Capacity</div>
-          <div>Price</div>
-          <div>Discount</div>
-          <div>Action</div>
-        </Table.Header>
-        <Table.Body
-          data={sortedCabins}
-          render={(cabin) => <CabinRow cabin={cabin} key={cabin.id} />}
-        />
-      </Table>
-    </Menus>
+    <TableContainer>
+      <Menus>
+        <Table columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
+          <Table.Header>
+            <div>Image</div>
+            <div>Cabin</div>
+            <div>Capacity</div>
+            <div>Price</div>
+            <div>Discount</div>
+            <div>Action</div>
+          </Table.Header>
+          <Table.Body
+            data={sortedCabins}
+            render={(cabin) => <CabinRow cabin={cabin} key={cabin.id} />}
+          />
+        </Table>
+      </Menus>
+    </TableContainer>
   );
 };
 

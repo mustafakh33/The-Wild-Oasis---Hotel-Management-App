@@ -1,4 +1,4 @@
-import { cloneElement, createContext, useContext } from "react";
+import { createContext, useContext } from "react";
 import styled from "styled-components";
 
 const StyledTable = styled.div`
@@ -47,7 +47,6 @@ const Footer = styled.footer`
   justify-content: center;
   padding: 1.2rem;
 
-  /* This will hide the footer when it contains no child elements. Possible thanks to the parent selector :has 🎉 */
   &:not(:has(*)) {
     display: none;
   }
@@ -73,7 +72,7 @@ function Table({ columns, children }) {
 }
 
 function Header({ children }) {
-  const { columns } = useContext(TableContext); // Accessing the columns from the context
+  const { columns } = useContext(TableContext);
   return (
     <StyledHeader role="row" as="header" columns={columns}>
       {children}
@@ -81,7 +80,7 @@ function Header({ children }) {
   );
 }
 function Row({ children }) {
-  const { columns } = useContext(TableContext); // Accessing the columns from the context
+  const { columns } = useContext(TableContext);
   return (
     <StyledRow role="row" columns={columns}>
       {children}
@@ -95,7 +94,6 @@ function Body({ data, render }) {
   return <StyledBody role="row">{data.map(render)}</StyledBody>;
 }
 
-// At the end of Table.jsx
 Table.Header = Header;
 Table.Row = Row;
 Table.Body = Body;

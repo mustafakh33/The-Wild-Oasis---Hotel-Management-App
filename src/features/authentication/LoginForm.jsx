@@ -1,20 +1,26 @@
 import { useState } from "react";
+import styled from "styled-components";
 import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import Input from "../../ui/Input";
 import FormRowVertical from "../../ui/FormRowVertical";
+import SpinnerMini from "../../ui/SpinnerMini";
 import { useLogin } from "./useLogin";
-import SpinnerMini from "./../../ui/SpinnerMini";
 
-import styled from "styled-components";
-const ButtonGroup = styled.div`
-  display: flex;
-  justify-content: flex-end; // Or space-between
-  gap: 1.2rem;
+const GuestCredentials = styled.p`
+  font-size: 1.4rem;
+  color: var(--color-grey-500);
+  text-align: center;
+  margin-top: 1.2rem;
+  line-height: 1.6;
+
+  & span {
+    font-weight: 600;
+    font-family: "Sono";
+  }
 `;
 
 function LoginForm() {
-  // Guest credentials
   const guestEmail = "mustafa@example.com";
   const guestPassword = "123456789";
 
@@ -36,10 +42,8 @@ function LoginForm() {
     );
   }
 
-  // Function to handle guest login
   function handleGuestLogin() {
-    setEmail(guestEmail);
-    setPassword(guestPassword);
+    login({ email: guestEmail, password: guestPassword });
   }
 
   return (
@@ -48,13 +52,13 @@ function LoginForm() {
         <Input
           type="email"
           id="email"
-          // This makes this form better for password managers
           autoComplete="username"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={isLoading}
         />
       </FormRowVertical>
+
       <FormRowVertical label="Password">
         <Input
           type="password"
@@ -67,25 +71,23 @@ function LoginForm() {
       </FormRowVertical>
 
       <FormRowVertical>
-        {/* Button Group for guest login */}
-        <ButtonGroup>
-          <Button
-            onClick={handleGuestLogin}
-            size="medium" // or any size you have
-            variation="secondary" // or any style you have
-            type="button" // Important to prevent form submission
-            disabled={isLoading}
-          >
-            Use guest account
-          </Button>
-        </ButtonGroup>
-      </FormRowVertical>
-
-      <FormRowVertical>
         <Button disabled={isLoading} size="large">
           {!isLoading ? "Login" : <SpinnerMini />}
         </Button>
+        <Button
+          onClick={handleGuestLogin}
+          size="large"
+          variation="secondary"
+          type="button"
+          disabled={isLoading}
+        >
+          Log in as Guest
+        </Button>
       </FormRowVertical>
+
+      <GuestCredentials>
+        To test the application, you can log in as a guest.
+      </GuestCredentials>
     </Form>
   );
 }

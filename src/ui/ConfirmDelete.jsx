@@ -18,6 +18,35 @@ const StyledConfirmDelete = styled.div`
     justify-content: flex-end;
     gap: 1.2rem;
   }
+
+  @media (max-width: 768px) {
+    width: 38rem;
+  }
+
+  @media (max-width: 480px) {
+    width: 90vw;
+    max-width: 350px;
+
+    & p {
+      font-size: 1.4rem;
+    }
+
+    & div {
+      flex-direction: column-reverse;
+      gap: 1rem;
+    }
+  }
+
+  /* Very small mobile screens */
+  @media (max-width: 360px) {
+    width: 95vw;
+    gap: 0.8rem;
+
+    & p {
+      font-size: 1.3rem;
+      margin-bottom: 0.8rem;
+    }
+  }
 `;
 
 function ConfirmDelete({ resourceName, onConfirm, disabled, onCloseModal }) {

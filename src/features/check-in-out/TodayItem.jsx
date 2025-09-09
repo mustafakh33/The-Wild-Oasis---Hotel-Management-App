@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
 import Tag from "../../ui/Tag";
 import { Flag } from "../../ui/Flag";
 import Button from "../../ui/Button";
@@ -15,6 +14,8 @@ const StyledTodayItem = styled.li`
   font-size: 1.4rem;
   padding: 0.8rem 0;
   border-bottom: 1px solid var(--color-grey-100);
+
+  min-width: 450px;
 
   &:first-child {
     border-top: 1px solid var(--color-grey-100);

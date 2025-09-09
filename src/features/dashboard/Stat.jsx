@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const StyledStat = styled.div`
-  /* Box */
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
@@ -12,6 +11,12 @@ const StyledStat = styled.div`
   grid-template-rows: auto auto;
   column-gap: 1.6rem;
   row-gap: 0.4rem;
+
+  @media (max-width: 768px) {
+    padding: 1.2rem;
+    grid-template-columns: 5.4rem 1fr;
+    column-gap: 1rem;
+  }
 `;
 
 const Icon = styled.div`
@@ -29,6 +34,11 @@ const Icon = styled.div`
     width: 3.2rem;
     height: 3.2rem;
     color: var(--color-${(props) => props.color}-700);
+    // 👇 التعديل هنا للشاشات الصغيرة
+    @media (max-width: 768px) {
+      width: 2.8rem;
+      height: 2.8rem;
+    }
   }
 `;
 
@@ -39,12 +49,22 @@ const Title = styled.h5`
   letter-spacing: 0.4px;
   font-weight: 600;
   color: var(--color-grey-500);
+
+  // 👇 التعديل هنا للشاشات الصغيرة
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+  }
 `;
 
 const Value = styled.p`
   font-size: 2.4rem;
   line-height: 1;
   font-weight: 500;
+
+  // 👇 التعديل هنا للشاشات الصغيرة
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
 `;
 
 function Stat({ icon, title, value, color }) {

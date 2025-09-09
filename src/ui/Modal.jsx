@@ -14,6 +14,15 @@ const StyledModal = styled.div`
   box-shadow: var(--shadow-lg);
   padding: 3.2rem 4rem;
   transition: all 0.5s;
+  /* Medium screens (Tablets) */
+  @media (max-width: 992px) {
+    padding: 2.4rem 3.2rem;
+  }
+
+  /* Small screens (Mobiles) 📱 */
+  @media (max-width: 480px) {
+    padding: 1.6rem 2rem;
+  }
 `;
 
 const Overlay = styled.div`
@@ -46,9 +55,6 @@ const Button = styled.button`
   & svg {
     width: 2.4rem;
     height: 2.4rem;
-    /* Sometimes we need both */
-    /* fill: var(--color-grey-500);
-    stroke: var(--color-grey-500); */
     color: var(--color-grey-500);
   }
 `;
@@ -86,7 +92,6 @@ function Window({ children, name }) {
         <Button onClick={close}>
           <HiXMark />
         </Button>
-
         <div>{cloneElement(children, { onCloseModal: close })}</div>
       </StyledModal>
     </Overlay>,
