@@ -2,7 +2,6 @@ import styled, { css } from "styled-components";
 import Logo from "./Logo";
 import MainNav from "./MainNav";
 import { useOutsideClick } from "../hooks/useOutsideClick";
-import { Uploader } from "./../data/Uploader";
 import { HiXMark } from "react-icons/hi2";
 
 const StyledSidebar = styled.aside`
@@ -72,7 +71,6 @@ function Sidebar({ isOpen, onCloseSidebar }) {
       </CloseButton>
       <Logo />
       <MainNav />
-      <Uploader />
     </StyledSidebar>
   );
 }
