@@ -1,6 +1,6 @@
 # 🏨 The Wild Oasis - Hotel Management App
 
-**[Try the App Live 🚀](https://your-live-app-url.com)**
+**[Try the App Live 🚀](https://the-wild-oasis-dashboard2.netlify.app/)**
 
 An integrated web application (dashboard) for managing a small hotel called "The Wild Oasis." The application allows staff to track and manage everything related to reservations, cabins, and guests efficiently and easily.
 
